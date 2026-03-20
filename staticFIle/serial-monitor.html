@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serial Monitor</title>
+    <!-- Estilos externos -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Serial Monitor</h1>
+
+        <!-- Panel de estado de conexión -->
+        <div class="card">
+            <div class="card-title">Conexión</div>
+            <div class="status-bar">
+                <div class="status-dot" id="statusDot"></div>
+                <span class="status-text" id="statusText">Desconectado</span>
+            </div>
+        </div>
+
+        <!-- Panel de configuración del puerto -->
+        <div class="card">
+            <div class="card-title">Configuración</div>
+            
+            <!-- Selector de puerto -->
+            <div class="form-row">
+                <button id="selectPortBtn">Seleccionar Puerto</button>
+                <span id="portName" style="display: flex; align-items: center; color: #888; font-size: 0.875rem;"></span>
+            </div>
+            
+            <!-- Selector de baud rate -->
+            <div class="form-row">
+                <select id="baudSelect">
+                    <option value="300">300 baud</option>
+                    <option value="1200">1200 baud</option>
+                    <option value="2400">2400 baud</option>
+                    <option value="4800">4800 baud</option>
+                    <option value="9600" selected>9600 baud</option>
+                    <option value="19200">19200 baud</option>
+                    <option value="38400">38400 baud</option>
+                    <option value="57600">57600 baud</option>
+                    <option value="115200">115200 baud</option>
+                </select>
+            </div>
+            
+            <!-- Botones de acción -->
+            <div class="form-row btn-group">
+                <button id="connectBtn" class="primary" >Abrir Puerto</button>
+                <button id="disconnectBtn" class="danger" disabled>Liberar Puerto</button>
+            </div>
+        </div>
+
+        <!-- Terminal de mensajes -->
+        <div class="card">
+            <div class="card-title">Terminal</div>
+            <div class="terminal" id="terminal"></div>
+        </div>
+
+        <!-- Formulario para enviar mensajes -->
+        <div class="card">
+            <div class="card-title">Enviar</div>
+            <div class="form-row">
+                <input type="text" id="sendInput" placeholder="Escribe un mensaje..." >
+                <button id="sendBtn">Enviar</button>
+            </div>
+            <div class="form-row">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <input type="checkbox" id="newlineCheck" checked style="width: auto;">
+                    <span style="font-size: 0.875rem; color: #888;">Añadir NL/CR</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script principal -->
+    <script src="serial-monitor.js"></script>
+</body>
+</html>

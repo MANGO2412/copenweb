@@ -1,0 +1,208 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0a0a0a;
+    color: #e0e0e0;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    color: #fff;
+}
+
+.card {
+    background: #141414;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.card-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #333;
+}
+
+.status-dot.connected {
+    background: #22c55e;
+    box-shadow: 0 0 8px #22c55e;
+}
+
+.status-dot.disconnected {
+    background: #ef4444;
+}
+
+.status-text {
+    font-size: 0.875rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.form-row:last-child {
+    margin-bottom: 0;
+}
+
+select, input, button {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 0.875rem;
+    padding: 0.625rem 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+select:focus, input:focus {
+    border-color: #444;
+}
+
+select {
+    flex: 1;
+    cursor: pointer;
+}
+
+input {
+    flex: 1;
+}
+
+input::placeholder {
+    color: #555;
+}
+
+button {
+    background: #222;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+button:hover {
+    background: #2a2a2a;
+}
+
+button.primary {
+    background: #3b82f6;
+    border-color: #3b82f6;
+}
+
+button.primary:hover {
+    background: #2563eb;
+}
+
+button.primary:disabled {
+    background: #1e3a5f;
+    border-color: #1e3a5f;
+    cursor: not-allowed;
+}
+
+button.danger {
+    background: #dc2626;
+    border-color: #dc2626;
+}
+
+button.danger:hover {
+    background: #b91c1c;
+}
+
+.terminal {
+    background: #0d0d0d;
+    border: 1px solid #222;
+    border-radius: 8px;
+    height: 280px;
+    overflow-y: auto;
+    padding: 1rem;
+    font-family: 'SF Mono', 'Consolas', monospace;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+}
+
+.terminal::-webkit-scrollbar {
+    width: 6px;
+}
+
+.terminal::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.terminal::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+}
+
+.log-entry {
+    margin-bottom: 0.25rem;
+}
+
+.log-entry.recv {
+    color: #22c55e;
+}
+
+.log-entry.send {
+    color: #3b82f6;
+}
+
+.log-entry.info {
+    color: #666;
+}
+
+.log-entry.error {
+    color: #ef4444;
+}
+
+.log-time {
+    color: #444;
+    margin-right: 0.5rem;
+}
+
+.btn-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 1rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .btn-group {
+        flex-direction: column;
+    }
+}
