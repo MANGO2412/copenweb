@@ -611,11 +611,11 @@ function CreateTreatmentModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedPatient) {
-      toast.error("Selecciona un paciente", { position: "top-center" })
+      toast.error(t("broadcasting.selectPatientFirst"), { position: "top-center" })
       return
     }
     if (formData.remedioPersonalizadoIds.length=== 0 && formData.remedioSistemaIds.length=== 0 && formData.analisisIds.length=== 0  && formData.rateIds.length=== 0 && formData.ratePersonalesIds.length=== 0) {
-      toast.error("Selecciona al menos un remedy, análisis o rate", { position: "top-center" })
+      toast.error(t("broadcasting.selectContentFirst"), { position: "top-center" })
       return
     }
 
@@ -836,13 +836,13 @@ return (
                               </TabsContent>
 
                               <TabsContent value="rates" className="mt-0">
-                                 <div className="relative flex items-center gap-2 w-full mb-2">
-                                    <Input
-                                      placeholder="Escribe el nombre de algun rate..."
-                                      value={searchTerm}
-                                      onChange={(e) => setSearchTerm(e.target.value)}
-                                      className=" rounded-xl border-black/50 border-2  "
-                                    />
+<div className="relative flex items-center gap-2 w-full mb-2">
+                                     <Input
+                                       placeholder={t('categories.searchRates')}
+                                       value={searchTerm}
+                                       onChange={(e) => setSearchTerm(e.target.value)}
+                                       className=" rounded-xl border-black/50 border-2  "
+                                     />
                                     <Button type="button" className="rounded-xl" onClick={handleSearchRate}>
                                       <SearchIcon className="w-4 h-4" />
                                     </Button>
@@ -857,7 +857,7 @@ return (
                                       setSearchTerm("")
                                     
                                      }} />
-                                   < span className="text-sm">Mostrar rates personalizados</span>
+                                   < span className="text-sm">{t("categories.showCustomRates")}</span>
                                  </label>
                                  </div>
 
@@ -877,8 +877,8 @@ return (
                                               <p className="text-sm">{r.frecuencia}</p>
                                               <p className="text-sm">{r.nombre}</p>
                                               <div className="w-full border-2 mb-1.5"/>
-                                              <p className="text-xs text-muted-foreground mb-2"><span className="font-bold mr-0.5">Categoria:</span>{r.categoria}</p>
-                                              <p className="text-xs text-muted-foreground"><span className="font-bold mr-0.5">Subcategoria:</span>{r.subcategoria}</p>
+                                              <p className="text-xs text-muted-foreground mb-2"><span className="font-bold mr-0.5">{t('categories.categoriesCount')}:</span>{r.categoria}</p>
+                                              <p className="text-xs text-muted-foreground"><span className="font-bold mr-0.5">{t('categories.subcategoriesCount')}:</span>{r.subcategoria}</p>
                                         </div>
                                       ))}
                                   </div>                                   
@@ -953,7 +953,7 @@ return (
                       )
                     ) : (
                       <div className="flex items-center justify-center py-8 text-muted-foreground">
-                        Selecciona un paciente para ver el contenido
+                        {t("broadcasting.selectPatientToContent")}
                       </div>
                     )}
                   </TabsContent>
@@ -961,15 +961,15 @@ return (
                   <TabsContent value="programar" className="mt-0 p-4">
                     <Tabs value={treatmenttype} onValueChange={(value)=>setTreatmentType(value as "simple" | "periodic")} className="flex flex-col">
                       <TabsList variant="line" className="w-full justify-start">
-                        <TabsTrigger value="simple">Tratamiento Simple</TabsTrigger>
-                        <TabsTrigger value="periodic">Tratamiento Periódico</TabsTrigger>
+                        <TabsTrigger value="simple">{t('broadcasting.simpleTreatment')}</TabsTrigger>
+                        <TabsTrigger value="periodic">{t('broadcasting.periodicTreatment')}</TabsTrigger>
                       </TabsList>
 
                       <div className="mt-4">
                         <TabsContent value="simple" className="mt-0">
                           <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                              <Label htmlFor="startTime">Fecha de Inicio</Label>
+                              <Label htmlFor="startTime">{t('broadcasting.startDate')}</Label>
                               <DatePicker 
                                 value={formData.fecha_inicio}
                                 onChangeDate={(date:Date)=>setFormData({ ...formData, fecha_inicio: date })}  
@@ -977,7 +977,7 @@ return (
                               />
                             </div>
                             <div className="space-y-2">
-                              <Label htmlFor="endTime">Fecha de Cierre</Label>
+                              <Label htmlFor="endTime">{t('broadcasting.endDate')}</Label>
                               <DatePicker 
                                 value={formData.fecha_cierre}
                                 onChangeDate={(date:Date)=>setFormData({ ...formData, fecha_cierre: date })} 
@@ -992,7 +992,7 @@ return (
                             <div className="border-2 p-4 rounded-md border-muted-foreground">
                               <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                  <Label htmlFor="periodicStart">Fecha de Inicio</Label>
+                                  <Label htmlFor="periodicStart">{t('broadcasting.startDate')}</Label>
                                   <DatePicker 
                                     value={formData.fecha_inicio}
                                     onChangeDate={(date:Date)=>setFormData({ ...formData, fecha_inicio: date })}  
@@ -1000,10 +1000,10 @@ return (
                                   />
                                 </div>
                                 <div className="space-y-2">
-                                  <Label>Duración por ciclo</Label>
+                                  <Label>{t('broadcasting.durationPerCycle')}</Label>
                                   <div className="grid grid-cols-3 gap-2">
                                     <Field>
-                                      <FieldLabel>Horas</FieldLabel>
+                                      <FieldLabel>{t('broadcasting.hours')}</FieldLabel>
                                       <Input
                                         type="number"
                                         min={0}
@@ -1013,7 +1013,7 @@ return (
                                       />
                                     </Field>
                                     <Field>
-                                      <FieldLabel>Minutos</FieldLabel>
+                                      <FieldLabel>{t('broadcasting.minutes')}</FieldLabel>
                                       <Input
                                         type="number"
                                         min={0}
@@ -1023,7 +1023,7 @@ return (
                                       />
                                     </Field>
                                     <Field>
-                                      <FieldLabel>Segundos</FieldLabel>
+                                      <FieldLabel>{t('broadcasting.seconds')}</FieldLabel>
                                       <Input
                                         type="number"
                                         min={0}
@@ -1038,10 +1038,10 @@ return (
                             </div>
 
                             <div className="border-2 p-4 rounded-md border-muted-foreground">
-                              <Label className="mb-2 block">Programación</Label>
+                              <Label className="mb-2 block">{t('broadcasting.schedule')}</Label>
                               <div className="grid grid-cols-2 gap-4">
                                 <div className="flex items-center gap-2">
-                                  <p className="text-sm font-bold">Cada</p>
+                                  <p className="text-sm font-bold">{t('broadcasting.every')}</p>
                                   <Input 
                                     name="every"
                                     type="number" 
@@ -1055,13 +1055,13 @@ return (
                                     value={selectEvery}
                                     onChange={(e)=>setSelectEvery(e.target.value.toString() as DurationTime)}
                                   >
-                                    <option value="minute">Minuto(s)</option>
-                                    <option value="hour">Hora(s)</option>
-                                    <option value="day">Dia(s)</option>
+                                    <option value="minute">{t('broadcasting.minutes')}</option>
+                                    <option value="hour">{t('broadcasting.hours')}</option>
+                                    <option value="day">{t('broadcasting.duration')}</option>
                                   </select>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  <p className="text-sm font-bold">Duración</p>
+                                  <p className="text-sm font-bold">{t('broadcasting.duration')}</p>
                                   <Input 
                                     name="duration"
                                     type="number" 
@@ -1075,9 +1075,9 @@ return (
                                     value={selectDuration}
                                     onChange={(e)=>setSelectDuration(e.target.value.toString() as DurationTime)}
                                   >
-                                    <option value="minute">Minuto(s)</option>
-                                    <option value="hour">Hora(s)</option>
-                                    <option value="day">Dia(s)</option>
+                                    <option value="minute">{t('broadcasting.minutes')}</option>
+                                    <option value="hour">{t('broadcasting.hours')}</option>
+                                    <option value="day">{t('broadcasting.duration')}</option>
                                   </select>
                                 </div>
                               </div>
@@ -1091,10 +1091,10 @@ return (
            </div>
             <div className="flex justify-end gap-2 pt-4">
               <Button type="button" variant="outline" onClick={resetForm}>
-                Cancelar
+                {t('broadcasting.cancel')}
               </Button>
               <Button type="submit">
-                Crear Tratamiento
+                {t('broadcasting.save')}
               </Button>
             </div>
           </form>

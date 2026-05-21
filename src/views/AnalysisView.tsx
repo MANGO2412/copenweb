@@ -245,7 +245,7 @@ function AnalysisList({
                 )}
                 <Button variant="outline" size="sm" onClick={() => onDelete(analysis.id || "")} >
                   <Trash2Icon className="w-3 h-3" />
-                  {t('analysis.delete')}
+                  {t('common.delete')}
                 </Button>
               </div>
             </div>

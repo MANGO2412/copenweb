@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -55,6 +56,7 @@ interface CreateRateModalProps {
 
 function RateGenerator({setGeneratedCode,isGeneratedCodeActive }: RateGeneratorProps) {
   const [isGenerating, setIsGenerating] = useState(false)
+  const { t } = useTranslation()
 
   const handleGenerate = () => {
     setIsGenerating(true)
@@ -71,7 +73,7 @@ function RateGenerator({setGeneratedCode,isGeneratedCodeActive }: RateGeneratorP
       <div className="border-2 border-black/30 rounded-lg p-4 space-y-3">
         <div className="flex items-center gap-2">
           <Wand2Icon className="w-5 h-5" />
-          <span className="font-medium">Generar Rate desde Instrumento</span>
+          <span className="font-medium">{t("categories.FormGenerateCodeLabel")}</span>
         </div>
         
         <div className="flex gap-2">
@@ -86,7 +88,7 @@ function RateGenerator({setGeneratedCode,isGeneratedCodeActive }: RateGeneratorP
             ) : (
               <Wand2Icon className="w-4 h-4 mr-2" />
             )}
-            Generar Código
+            {t("categories.FormGenerateCodeBtn")}
           </Button>
         </div>
       </div>
@@ -99,19 +101,21 @@ function RateGenerator({setGeneratedCode,isGeneratedCodeActive }: RateGeneratorP
 }
 
 function FormRateGenerator({ rateCode, setRateCode, autoGenerateId, setAutoGenerateId, rateName, setRateName, selectedCategory,selectedSubcategory }: FormRateGeneratorProps) {
+  const { t } = useTranslation()
+
   return(
       <>
           <div className="space-y-3">
             <div className="space-y-2 flex">
                <div className="space-y-2">
-                   <Label htmlFor="rateCode">Código del Rate</Label>
+                   <Label htmlFor="rateCode">{t("categories.rateCode")} </Label>
                    <Input
                      id="rateCode"
                      value={rateCode}
                      onChange={(e) => setRateCode(e.target.value.toUpperCase())}
-                     placeholder="Ej: 13434359"
+                     placeholder={t("categories.placeHolderRateCode")}
                      disabled={autoGenerateId}
-                     className="font-mono uppercase w-md border-black/50 border-2"
+                     className=" w-md border-black/50 border-2"
                      maxLength={10}
                    />
                </div>
@@ -125,18 +129,18 @@ function FormRateGenerator({ rateCode, setRateCode, autoGenerateId, setAutoGener
                       htmlFor="autoGenerate" 
                       className="text-sm font-medium cursor-pointer"
                     >
-                      Generar ID automáticamente
+                     {t("categories.generateAutomaticeID")}
                     </label>
                 </div>  
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="rateName">Nombre del Rate</Label>
+              <Label htmlFor="rateName">{t("categories.rateName")}</Label>
               <Input
                 id="rateName"
                 value={rateName}
                 onChange={(e) => setRateName(e.target.value)}
-                placeholder="Ej: Cerebro"
+                placeholder={t("categories.placeHolderSubcategory")}
                 className="border-black/50 border-2"
               />
             </div>
@@ -144,17 +148,17 @@ function FormRateGenerator({ rateCode, setRateCode, autoGenerateId, setAutoGener
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <FolderIcon className="w-5 h-5" />
-                <span className="font-medium">Información sobre lo seleccionado</span>
+                <span className="font-medium">{t("categories.selectInformation")}</span>
               </div>
               {selectedCategory && (
                 <Badge variant="outline" className="text-md p-3">
-                  categoria: {selectedCategory.nombre}
+                  {t("categories.sectionCategory")}: {selectedCategory.nombre}
                 </Badge>
               )}
               
               {selectedSubcategory && (
                 <Badge variant="outline"  className="text-md p-3">
-                  subcategoria: {selectedSubcategory.nombre}
+                  {t("categories.sectionSubcategory")}: {selectedSubcategory.nombre}
                 </Badge>
               )}
             </div>
@@ -169,7 +173,7 @@ function FormRateGenerator({ rateCode, setRateCode, autoGenerateId, setAutoGener
 }
 
 export function CreateRateModal({ createModalOpen, onOpenChange, onSave,selectCategory,selectSubcategory }: CreateRateModalProps) {
-  
+  const { t } = useTranslation()
   const [autoGenerateId, setAutoGenerateId] = useState(false)
   const [rateCode, setRateCode] = useState("")
   const [generalName, setGeneralName] = useState("")
@@ -199,7 +203,7 @@ export function CreateRateModal({ createModalOpen, onOpenChange, onSave,selectCa
       <DialogContent className="max-w-2xl! max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-xl">
-            Crear nuevo {createModalOpen.action === "category" ? "Categoría" : createModalOpen.action === "subcategory" ? "Subcategoría" : "Rate"}
+            {t(`categories.dialogTitle.${createModalOpen.action}`)}
           </DialogTitle>
         </DialogHeader>
 
@@ -218,18 +222,18 @@ export function CreateRateModal({ createModalOpen, onOpenChange, onSave,selectCa
           ):(
             <div className="space-y-3">
               <div className="space-y-2">
-                <Label htmlFor="name">{createModalOpen.action === "category" ? "Nombre de la Categoría" : "Nombre de la Subcategoría"}</Label>
+                <Label htmlFor="name">{t(`${createModalOpen.action === "category" ? "categories.categoryName" : "categories.subcategoryName"}`)}</Label>
                 <Input
                   id="name"
                   value={generalName}
                   onChange={(e) => setGeneralName(e.target.value)}
-                  placeholder={createModalOpen.action === "category" ? "Ej: Sistema Nervioso Central" : "Ej: Cerebro"}
+                  placeholder={t(`${createModalOpen.action === "category" ? "categories.placeHolderCategory" : "categories.placeHolderSubcategory"}`)}
                   className="border-black/50 border-2"
                 />
               </div>
               {createModalOpen.action === "subcategory" && (
                 <div className="space-y-2">
-                   <Label>Categoria seleccionada</Label>
+                   <Label>{t("categories.categorySelected")}</Label>
                    <Input
                      value={selectCategory?.nombre || ""}
                      disabled
@@ -244,7 +248,7 @@ export function CreateRateModal({ createModalOpen, onOpenChange, onSave,selectCa
         <DialogFooter className="mt-4">
           <Button variant="outline" onClick={handleCancel}>
             <XIcon className="w-4 h-4 mr-2" />
-            Cancelar
+            {t("categories.cancel")}
           </Button>
           <Button 
             onClick={handleSave}
@@ -252,7 +256,7 @@ export function CreateRateModal({ createModalOpen, onOpenChange, onSave,selectCa
             className="bg-green-600 hover:bg-green-700"
           >
             <SaveIcon className="w-4 h-4 mr-2" />
-            Guardar {createModalOpen.action === "category" ? "Categoría" : createModalOpen.action === "subcategory" ? "Subcategoría" : "Rate"}
+            {t("categories.save")} 
           </Button>
         </DialogFooter>
       </DialogContent>

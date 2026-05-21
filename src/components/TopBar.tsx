@@ -32,10 +32,11 @@ interface TopBarProps {
 }
 
 const languages: Language[] = [
-  { value: "es", label: "Español" },
-  { value: "en", label: "English" },
-  { value: "pt", label: "Português" },
-  { value: "fr", label: "Français" },
+  { value: "es", label: "topBar.languageOption.es" },
+  { value: "en", label: "topBar.languageOption.en" },
+  { value: "pt", label: "topBar.languageOption.pt" },
+  { value: "fr", label: "topBar.languageOption.fr" },
+  { value: "it", label: "topBar.languageOption.it" },
 ]
 
 
@@ -126,7 +127,7 @@ function LanguageSubMenu() {
           >
             {languages.map((lang) => (
               <MenubarRadioItem key={lang.value} value={lang.value}>
-                {lang.label}
+                {t(lang.label)}
               </MenubarRadioItem>
             ))}
           </MenubarRadioGroup>

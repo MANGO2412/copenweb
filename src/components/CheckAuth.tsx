@@ -4,17 +4,18 @@ import {
 } from "@/components/ui/spinner"
 
 import { Navigate,useLocation } from "react-router"
-import {type ReactNode} from "react"
+import { type ReactNode} from "react"
 
 export  default function CheckAUth({children}:{children:ReactNode}){
     const {session,isLoading}=useAuthContext()
      const location=useLocation()
 
-
     if(isLoading){
-      <div className="flex justify-center items-center  h-100">
-          <Spinner className="size-9" />
-      </div>
+       return(
+        <div className="flex justify-center items-center min-h-screen w-full">
+          <Spinner className="size-11" />
+        </div>
+       )
     }
 
     if(location.pathname == "/login" && session){
@@ -25,7 +26,7 @@ export  default function CheckAUth({children}:{children:ReactNode}){
       return <>{children}</>
     }
 
-    if(!session){
+    if(!session ){
         return <Navigate to="/login" replace />
     }
 

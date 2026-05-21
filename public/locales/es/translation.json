@@ -14,6 +14,13 @@
     "settings": "Configuración",
     "selectPort": "Seleccionar puerto",
     "language": "Idioma",
+    "languageOption":{
+      "es":"Español",
+      "en":"Ingles",
+      "it":"Italiano",
+      "pt":"Portugues",
+      "fr":"Frances"
+    },
     "help": "Ayuda",
     "about": "Acerca de",
     "machine": "Maquina",
@@ -49,11 +56,20 @@
     "cancel": "Cancelar",
     "edit": "Editar",
     "delete": "Eliminar",
+    "photo":"Foto",
+    "uploadImage":"Subir imagen",
     "view": "Ver",
     "selectPatient": "Seleccionar paciente",
     "noPatients": "No hay pacientes",
     "patientExists": "El paciente {name} ya existe en el sistema, por favor registrar el paciente con otro nombre diferente",
-    "confirmDelete": "¿Está seguro de que desea eliminar este paciente?"
+    "confirmDelete": "¿Está seguro de que desea eliminar este paciente?",
+    "btnFindPGR":"Encontrar PGR",
+    "btnSavePGR":"Guardar PGR en la Tarjeta",
+    "labelFemale":"Femenino",
+    "labelMale":"Masculino",
+    "labelAnimal":"Animal",
+    "labelThings":"Planta y Tierra"
+
   },
   "analysis": {
     "title": "Análisis",
@@ -78,31 +94,42 @@
     "removeRate": "Quitar rate",
     "controlPanel": "Panel de control",
     "level": "Nivel",
-    "suggestLevel": "Nivel sugerido",
+    "suggestLevel": "Sugerir Nivel ",
     "potencyValue": "Potencia",
-    "suggestPotency": "Potencia sugerida",
+    "suggestPotency": "Sugerir Potencia ",
     "saveAnalysis": "Guardar Análisis",
     "startAnalysis": "Iniciar análisis",
     "stopAnalysis": "Detener análisis",
-    "machineDisconnected": "Tu maquina esta desconectada",
     "noOptionsSelected": "No has seleccionado algunas opciones desde el panel de control.",
     "noValuesSelected": "No has seleccionado algunos valores o opciones de sugerir nivel y potencia desde el panel de control.",
     "machineNotConnected": "Tu maquina esta desconectada",
-    "analysisDuplicated": "El nombre de este analisis esta duplicado, intenta crear un analisis con un nombre diferente por favor."
+    "analysisDuplicated": "El nombre de este analisis esta duplicado, intenta crear un analisis con un nombre diferente por favor.",
+    "ratesAvailable":"Rates Disponibles",
+    "porcentage":"Porcentaje"
   },
   "remedies": {
     "title": "Remedios",
+    "NotFoundRate":"No se encontraron rates",
     "systemRemedies": "Remedios del sistema",
     "customRemedies": "Remedios personalizados",
     "filterByLetter": "Filtrar por letra",
     "all": "Todos",
     "addRemedy": "Agregar Remedio",
+    "createRemedy":"Crear Nuevo Remedio",
     "editRemedy": "Editar Remedio",
     "remedyName": "Nombre del remedio",
+    "placeHolderInputName":"Ingrese el nombre del remedio",
+    "placeHolderInputSearch":"Buscar rate por nombre o código...",
+    "ratesSelected":"Rates seleccionados",
+    "selectRateList":"Seleccione rates de la lista",
     "description": "Descripción",
     "selectRates": "Seleccionar Rates",
     "systemRates": "Rates del sistema",
     "customRates": "Rates personalizados",
+    "labelPotency":"Potencia",
+    "labelMethod":"Metodo",
+    "labelNivel":"Nivel",
+    "labelComp":"Complementario",
     "save": "Guardar",
     "cancel": "Cancelar",
     "delete": "Eliminar",
@@ -110,7 +137,7 @@
     "edit": "Editar",
     "view": "Ver",
     "noRemedies": "No hay remedios",
-    "remedyExists": "Este nomre: \"{name}\" ya esta usado por otro remedio",
+    "remedyExists": "Este nombre: \"{name}\" ya esta usado por otro remedio",
     "remedyRemoved": "El remedio  {name} fue eliminado exitosamente",
     "remedyRemoveError": "un error ha ocurrido al eliminar el {name} remedio",
     "cannotRemoveSystemRemedy": "No debes remover remedios del sistema; unicamente se pueden eliminar los remedios  personalizados",
@@ -119,6 +146,11 @@
   },
   "categories": {
     "title": "Diccionario de rates",
+    "dialogTitle":{
+      "category":"Crear nueva Categoria",
+      "subcategory":"Crear nueva Subcategoria",
+      "rate":"Crear nuevo Rate"
+    },
     "showCustomRates": "Mostrar rates personalizados",
     "searchRates": "Buscar rates...",
     "categoriesCount": "Categorías",
@@ -154,7 +186,20 @@
     "errorDeletingCategory": "Error al eliminar categoría: {error}",
     "categoryDeleted": "Categoría eliminada exitosamente",
     "selectCategoryFirst": "Selecciona una categoría antes de agregar una subcategoría",
-    "selectSubcategoryFirst": "Selecciona una subcategoría antes de agregar un rate"
+    "selectSubcategoryFirst": "Selecciona una subcategoría antes de agregar un rate",
+    "optionDeleteRate":"Eliminar Rate",
+    "optionPasteRate":"Pegar Rate",
+    "categorySelected":"categoria seleccionada",
+    "optionDeleteSubcategory":"Eliminar subcategoria",
+    "generateAutomaticeID":"Generar ID automáticamente",
+    "selectInformation":"Información sobre lo seleccionado",
+    "sectionCategory":"Categoria",
+    "sectionSubcategory":"Subcategoria",
+    "placeHolderCategory":"Ejemplo: Sistema Nervioso Central",
+    "placeHolderSubcategory":"Ejemplo: Cerebro",
+    "placeHolderRateCode":"Ejemplo: 13434359",
+    "FormGenerateCodeLabel":"Generar Rate desde el Instrumento",
+    "FormGenerateCodeBtn":"Generar Código"
   },
   "broadcasting": {
     "title": "Broadcasting",
@@ -183,6 +228,7 @@
     "systemRemedies": "System Remedies",
     "customRemedies": "Custom Remedies",
     "noAnalyses": "No hay análisis disponibles",
+    "selectPatientToContent":"Selecciona un paciente para ver el contenido",
     "save": "Crear",
     "cancel": "Cancelar",
     "delete": "Eliminar",
@@ -216,7 +262,8 @@
     "forgotPassword": "¿Olvidaste tu contraseña?",
     "loginButton": "Iniciar sesión",
     "loggingIn": "Iniciando sesión...",
-    "healthSystem": "Sistema de salud"
+    "healthSystem": "Sistema de salud",
+    "invalid_credentials":"El inicio de sesión falló. Por favor, verifica tus credenciales."
   },
   "common": {
     "save": "Guardar",
@@ -246,6 +293,12 @@
     "system": "Sistema",
     "personal": "Personal",
     "selectAll": "Seleccionar todos",
-    "deselectAll": "Deseleccionar todos"
+    "deselectAll": "Deseleccionar todos",
+    "clear":"Limpiar",
+    "createdAt":"Fecha de Creación",
+    "machineDisconnected": "Tu maquina esta desconectada",
+    "machineProcessTitle":"Ejecutando Proceso",
+    "processSavePgr":"Guardar PGR en la Tarjeta",
+    "processFindPgr":"Encontrar PGR"
   }
 }

@@ -14,7 +14,7 @@ import {
 
 import { Spinner } from "@/components/ui/spinner"
 
-import { CreateRateModal } from "./CreateRateModal"
+import { CreateRateModal } from "@/views/CreateRateModal"
 import { 
   SearchIcon, 
   PlusIcon, 
@@ -202,34 +202,34 @@ export function CategoriesView() {
        const newCategory = await addCategory(name);
 
       if("code" in newCategory){
-        toast.error("Error al crear categoría: " + newCategory.messsage,{position:"top-center"})
+        toast.error(t("categories.errorCreatingCategory").replace("{error}",newCategory.messsage),{position:"top-center"})
         return
       }
 
       setCategories((prev) => [...prev, newCategory])
-      toast.success("Categoría creada exitosamente",{position:"top-center"})
+      toast.success(t("categories.categoryCreated"),{position:"top-center"})
     } else if (action === "subcategory") {
 
       const newSubcategory = await addsubcategory(name,selectedCategory!.id)
 
       if("code" in newSubcategory){
-        toast.error("Error al crear subcategoría: " + newSubcategory.messsage,{position:"top-center"})
+        toast.error(t("categories.errorCreatingSubcategory").replace("{error}",newSubcategory.messsage),{position:"top-center"})
         return
       }
 
       setFilteredSubcategories((prev) => [...prev, newSubcategory])
-      toast.success("Subcategoría creada exitosamente",{position:"top-center"})
+      toast.success(t("categories.subcategoryCreated"),{position:"top-center"})
     } else if (action === "rate") {
 
       const newRate=await addRate(name,rateCode!,selectedSubcategory!.subcategoriaid)
       
       if("code" in newRate){
-        toast.error("Error al crear rate: " + newRate.messsage,{position:"top-center"})
+        toast.error(t("categories.errorCreatingRate").replace("{error}",newRate.messsage),{position:"top-center"})
         return
       }
 
       setSubcategoryRates((prev) => [...prev, newRate])
-      toast.success("Rate creado exitosamente",{position:"top-center"})
+      toast.success(t("categories.rateCreated"),{position:"top-center"})
     }
 
   }
@@ -237,50 +237,50 @@ export function CategoriesView() {
   const handleDeleteRate = async(rateId:string) => {
    
     if(!showUserRates){
-      toast.error("No puedes eliminar rates del sistema",{position:"top-center"})
+      toast.error(t("categories.cannotDeleteSystemRates"),{position:"top-center"})
       return
     }
 
     const result=await removeRate(rateId)
 
     if( typeof result === "object" && "code" in result){
-      toast.error("Error al eliminar rate: " + result.messsage,{position:"top-center"})
+      toast.error(t("categories.errorDeletingRate").replace("{error}", result.messsage),{position:"top-center"})
       return
     }
 
     setSubcategoryRates((prev) => prev.filter((rate) => rate.id !== rateId))
-    toast.success("Rate eliminado exitosamente",{position:"top-center"})
+    toast.success(t("categories.rateDeleted"),{position:"top-center"})
   }
 
   const handleDeleteSubcategory = async(subcategoryId:string) => {
     if(!showUserRates){
-      toast.error("No puedes eliminar subcategorías del sistema",{position:"top-center"})
+      toast.error(t("categories.cannotDeleteSystemSubcategories"),{position:"top-center"})
       return
     }
 
     const result=await removeSubcategory(subcategoryId)
 
     if( typeof result === "object" && "code" in result){
-      toast.error("Error al eliminar subcategoría: " + result.messsage,{position:"top-center"})
+      toast.error(t("categories.errorDeletingSubcategory").replace("{error}", result.messsage),{position:"top-center"})
       return
     }
     
     setSubcategoryRates([])
     setSelectedSubcategoryId(null)
     setFilteredSubcategories((prev) => prev.filter((sub) => sub.subcategoriaid !== subcategoryId))
-    toast.success("Subcategoría eliminada exitosamente",{position:"top-center"})
+    toast.success(t("categories.cannotDeleteSystemCategories"),{position:"top-center"})
   }
 
   const handleDeleteCategory = async(categoryId:string) => {
     if(!showUserRates){
-      toast.error("No puedes eliminar categorías del sistema",{position:"top-center"})
+      toast.error(t("categories.cannotDeleteSystemCategories"),{position:"top-center"})
       return
     }
 
     const result=await removeCategory(categoryId)
 
     if( typeof result === "object" && "code" in result){
-      toast.error("Error al eliminar categoría: " + result.messsage,{position:"top-center"})
+      toast.error(t("categories.errorDeletingCategory").replace("{error}", result.messsage),{position:"top-center"})
       return
     }
 
@@ -291,7 +291,7 @@ export function CategoriesView() {
        setSubcategoryRates([])
     }
     setCategories((prev) => prev.filter((cat) => cat.id !== categoryId))
-    toast.success("Categoría eliminada exitosamente",{position:"top-center"})
+    toast.success(t("categories.categoryDeleted"),{position:"top-center"})
   }
 
   const handleSearchRate=async()=>{
@@ -433,7 +433,7 @@ export function CategoriesView() {
                                </div>
                              </button>
                           </ContextMenuTrigger>
-<ContextMenuContent>
+                         <ContextMenuContent>
                             <ContextMenuItem onSelect={() => handleDeleteCategory(category.id)}>
                               <Trash2Icon className="w-4 h-4 mr-2" />
                               {t('categories.delete')}
@@ -453,7 +453,7 @@ export function CategoriesView() {
                   if(selectedCategory){
                     setCreateModalOpen({ open: true, action: "subcategory" })
                   }else{
-                    toast.error("Selecciona una categoría antes de agregar una subcategoría",{position:"top-center"})
+                    toast.error(t("categories.selectCategoryFirst"),{position:"top-center"})
                   }
                 } : undefined}
               >
@@ -464,11 +464,11 @@ export function CategoriesView() {
                     </div>
                   ) : !selectedCategory ? (
                     <div className="text-center py-8 text-muted-foreground">
-                      <p>Seleccione una categoría</p>
+                      <p>{t("categories.selectCategory")}</p>
                     </div>
                   ) : filteredSubcategories.length === 0 ? (
                     <div className="text-center py-8 text-muted-foreground">
-                      <p>No hay subcategorías</p>
+                      <p>{t("categories.noSubcategories")}</p>
                     </div>
                   ) : (
                     filteredSubcategories?.map((subcategory) => {
@@ -506,7 +506,7 @@ export function CategoriesView() {
                           <ContextMenuContent>
                             <ContextMenuItem onSelect={() => handleDeleteSubcategory(subcategory.subcategoriaid)}>
                               <Trash2Icon className="w-4 h-4 mr-2" />
-                              Eliminar Subcategoria
+                              {t("categories.optionDeleteSubcategory")}
                             </ContextMenuItem>
                           </ContextMenuContent>
                         </ContextMenu>
@@ -523,7 +523,7 @@ export function CategoriesView() {
                   if(selectedSubcategory){
                     setCreateModalOpen({ open: true, action: "rate" })
                   }else{
-                    toast.error("Selecciona una subcategoría antes de agregar un rate",{position:"top-center"})
+                    toast.error(t("categories.selectSubcategoryFirst"),{position:"top-center"})
                   }
                 } : undefined}
               >
@@ -536,12 +536,12 @@ export function CategoriesView() {
                     </div>
                   ) : !selectedCategory ? (
                     <div className="text-center py-8 text-muted-foreground">
-                      <p>Seleccione una categoría</p>
+                      <p>{t("categories.selectCategory")}</p>
                     </div>
                   ) : selectedSubcategory && (
                     subcategoryRates.length === 0 ? (
                       <div className="text-center py-8 text-muted-foreground">
-                        <p>No hay rates en esta subcategoría</p>
+                        <p>{t("categories.noRates")}</p>
                       </div>
                     ) : (
                       subcategoryRates.map((rate) => (
@@ -561,7 +561,7 @@ export function CategoriesView() {
                           <ContextMenuContent>
                             <ContextMenuItem onSelect={()=>handleDeleteRate(rate.id)}>
                               <Trash2Icon className="w-4 h-4 mr-2" />
-                              Eliminar Rate 
+                              {t("categories.optionDeleteRate")}
                             </ContextMenuItem>
                             {/* <ContextMenuItem>
                               <CopyIcon className="w-4 h-4 mr-2" />
@@ -576,10 +576,10 @@ export function CategoriesView() {
                   </ContextMenuTrigger>
                    {showUserRates && selectedSubcategory && (
                      <ContextMenuContent>
-                       <ContextMenuItem onSelect={() => toast.error("Selecciona una subcategoría para agregar un rate",{position:"top-center"})}>
+                       {/* <ContextMenuItem onSelect={() => toast.error("Selecciona una subcategoría para agregar un rate",{position:"top-center"})}>
                         <PlusIcon className="w-4 h-4 mr-2" />
-                        Pegar Rate
-                      </ContextMenuItem>
+                        {t("categories.optionPasteRate")}
+                      </ContextMenuItem> */}
                   </ContextMenuContent>
                     )}
                 </ContextMenu>

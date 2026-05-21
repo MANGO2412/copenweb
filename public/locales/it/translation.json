@@ -14,6 +14,13 @@
     "settings": "Impostazioni",
     "selectPort": "Seleziona porta",
     "language": "Lingua",
+    "languageOption":{
+      "es":"Spagnolo",
+      "en":"Inglese",
+      "it":"Italiano",
+      "pt":"Portoghese",
+      "fr":"Francese"
+    },
     "help": "Aiuto",
     "about": "Info",
     "machine": "Macchina",
@@ -49,11 +56,19 @@
     "cancel": "Annulla",
     "edit": "Modifica",
     "delete": "Elimina",
+    "photo":"Foto",
+    "uploadImage":"Carica immagine",
     "view": "Visualizza",
     "selectPatient": "Seleziona paziente",
     "noPatients": "Nessun paziente",
     "patientExists": "Il paziente {name} esiste già nel sistema, per favore registra il paziente con un nome diverso",
-    "confirmDelete": "Sei sicuro di voler eliminare questo paziente?"
+    "confirmDelete": "Sei sicuro di voler eliminare questo paziente?",
+    "btnFindPGR":"Trovare PGR",
+    "btnSavePGR":"Salva PGR sulla scheda",
+    "labelFemale":"Femmina",
+    "labelMale":"Maschio",
+    "labelAnimal":"Animale",
+    "labelThings":"Pianta e suolo"
   },
   "analysis": {
     "title": "Analisi",
@@ -78,31 +93,42 @@
     "removeRate": "Rimuovi rate",
     "controlPanel": "Pannello di controllo",
     "level": "Livello",
-    "suggestLevel": "Livello suggerito",
+    "suggestLevel": "Livello di suggerimento",
     "potencyValue": "Potenza",
-    "suggestPotency": "Potenza suggerita",
+    "suggestPotency": "Suggerisci potenza",
     "saveAnalysis": "Salva Analisi",
     "startAnalysis": "Avvia analisi",
     "stopAnalysis": "Ferma analisi",
-    "machineDisconnected": "La tua macchina è disconnessa",
     "noOptionsSelected": "Non hai selezionato alcune opzioni dal pannello di controllo",
     "noValuesSelected": "Non hai selezionato alcuni valori o opzioni suggerite di livello e potenza dal pannello di controllo",
     "machineNotConnected": "La tua macchina non è connessa",
-    "analysisDuplicated": "Il nome di questa analisi è duplicato, per favore prova a creare un'analisi con un nome diverso"
+    "analysisDuplicated": "Il nome di questa analisi è duplicato, per favore prova a creare un'analisi con un nome diverso",
+    "ratesAvailable":"Rates disponibili",
+    "porcentage":"Percentuale"
   },
   "remedies": {
     "title": "Rimedi",
+    "NotFoundRate":"No se encontraron rates",
     "systemRemedies": "Rimedi di sistema",
     "customRemedies": "Rimedi personalizzati",
     "filterByLetter": "Filtra per lettera",
     "all": "Tutti",
     "addRemedy": "Aggiungi Rimedio",
+    "createRemedy":"Crea un nuovo rimedio",
     "editRemedy": "Modifica Rimedio",
     "remedyName": "Nome del rimedio",
+    "placeHolderInputName":"Inserisci il nome del medicinale",
+    "placeHolderInputSearch":"Cerca una Rate per nome o codice...",
+    "ratesSelected":"Rate selezionate",
+    "selectRateList":"Selezionare le Rate dall'elenco",
     "description": "Descrizione",
     "selectRates": "Seleziona Rates",
     "systemRates": "Rates di sistema",
     "customRates": "Rates personalizzati",
+    "labelPotency":"Potenza",
+    "labelMethod":"Metodo",
+    "labelNivel":"Livello",
+    "labelComp":"Complementare",
     "save": "Salva",
     "cancel": "Annulla",
     "delete": "Elimina",
@@ -119,6 +145,11 @@
   },
   "categories": {
     "title": "Dizionario dei rate",
+    "dialogTitle":{
+      "category":"Crea una nuova Categorie",
+      "subcategory":"Crea una nuova  Sottocategorie",
+      "rate":"Crea una nuova Rate"
+    },
     "showCustomRates": "Mostra rate personalizzati",
     "searchRates": "Cerca rate...",
     "categoriesCount": "Categorie",
@@ -154,7 +185,21 @@
     "errorDeletingCategory": "Errore nell'eliminazione della categoria: {error}",
     "categoryDeleted": "Categoria eliminata con successo",
     "selectCategoryFirst": "Seleziona una categoria prima di aggiungere una sottocategoria",
-    "selectSubcategoryFirst": "Seleziona una sottocategoria prima di aggiungere un rate"
+    "selectSubcategoryFirst": "Seleziona una sottocategoria prima di aggiungere un rate",
+    "optionDeleteRate":"Eliminanto Rate",
+    "optionPasteRate":"Incolla Rate",
+    "categorySelected":"categoria selezionata",
+    "optionDeleteSubcategory":"Elimina sottocategoria",
+    "generateAutomaticeID":"Genera ID automaticamente",
+    "selectInformation":"Informazioni sull'elemento selezionato",
+    "sectionCategory":"Categoria",
+    "sectionSubcategory":"Sottocategoria",
+    "placeHolderCategory":"Esempio: sistema nervoso centrale",
+    "placeHolderSubcategory":"Esempio: Cervello",
+    "placeHolderRateCode":"Esempio: 13434359",
+    "FormGenerateCodeLabel":"Generare un Rate dallo strumento",
+    "FormGenerateCodeBtn":"Genera codice"
+
   },
   "broadcasting": {
     "title": "Broadcasting",
@@ -183,6 +228,7 @@
     "systemRemedies": "Rimedi di Sistema",
     "customRemedies": "Rimedi Personalizzati",
     "noAnalyses": "Nessuna analisi disponibile",
+    "selectPatientToContent":"Seleziona un paziente per visualizzare il contenuto",
     "save": "Crea",
     "cancel": "Annulla",
     "delete": "Elimina",
@@ -216,7 +262,8 @@
     "forgotPassword": "Hai dimenticato la password?",
     "loginButton": "Accedi",
     "loggingIn": "Accesso in corso...",
-    "healthSystem": "Sistema sanitario"
+    "healthSystem": "Sistema sanitario",
+    "invalid_credentials":"Accesso fallito. Per favore, verifica le tue credenziali."
   },
   "common": {
     "save": "Salva",
@@ -246,6 +293,12 @@
     "system": "Sistema",
     "personal": "Personale",
     "selectAll": "Seleziona tutto",
-    "deselectAll": "Deseleziona tutto"
+    "deselectAll": "Deseleziona tutto",
+    "clear":"Pulito",
+    "createdAt":"Data di creazione",
+    "machineDisconnected": "La tua macchina è disconnessa",
+    "machineProcessTitle":"Esecuzione del processo",
+    "processSavePgr":"Salva PGR sulla scheda",
+    "processFindPgr":"Trova PGR"
   }
 }

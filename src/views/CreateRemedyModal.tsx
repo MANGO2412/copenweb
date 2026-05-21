@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"
 import { Spinner } from "@/components/ui/spinner"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -62,6 +63,7 @@ interface CreateRemedyModalProps {
 
 
 function SelectedRateItem({ rate, onUpdate, onRemove }: SelectedRateItemProps) {
+  const { t } = useTranslation()
   const [isEditing, setIsEditing] = useState(false)
   const [editRate, setEditRate] = useState(rate)
 
@@ -86,7 +88,7 @@ function SelectedRateItem({ rate, onUpdate, onRemove }: SelectedRateItemProps) {
         </div>
         <div className="grid grid-cols-3 gap-2">
           <div>
-            <Label className="text-xs">Potencia</Label>
+            <Label className="text-xs">{t("remedies.labelPotency")}</Label>
             <Input 
               value={editRate.potencia || ""} 
               onChange={(e) => setEditRate({ ...editRate, potencia: e.target.value })}
@@ -96,7 +98,7 @@ function SelectedRateItem({ rate, onUpdate, onRemove }: SelectedRateItemProps) {
             />
           </div>
           <div>
-            <Label className="text-xs">Metodo</Label>
+            <Label className="text-xs">{t("remedies.labelMethod")}</Label>
             <Select value={editRate.metodo} onValueChange={(v) => setEditRate({ ...editRate, metodo: v })}>
               <SelectTrigger className="h-8">
                 <SelectValue />
@@ -127,7 +129,7 @@ function SelectedRateItem({ rate, onUpdate, onRemove }: SelectedRateItemProps) {
             </Select>
           </div>
           <div>
-            <Label className="text-xs">Nivel</Label>
+            <Label className="text-xs">{t("remedies.labelNivel")}</Label>
             <Select value={editRate.nivel} onValueChange={(v) => setEditRate({ ...editRate, nivel: v })}>
               <SelectTrigger className="h-8">
                 <SelectValue />
@@ -150,7 +152,7 @@ function SelectedRateItem({ rate, onUpdate, onRemove }: SelectedRateItemProps) {
             </Select>
           </div>
         </div>
-        <Button onClick={handleSave} size="sm" className="w-full">Guardar</Button>
+        <Button onClick={handleSave} size="sm" className="w-full">{t("remedies.save")}</Button>
       </div>
     )
   }
@@ -180,6 +182,7 @@ function SelectedRateItem({ rate, onUpdate, onRemove }: SelectedRateItemProps) {
 }
 
 function RatesSelector({ searchTerm, onSearchChange, selectedRates, onToggleRate }: RatesSelectorProps) {
+  const { t } = useTranslation()
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
   const [expandedSubcategories, setExpandedSubcategories] = useState<Set<string>>(new Set())
   const { categories ,setCategories,isLoading} = useGetCategories({getCustom:false})
@@ -238,7 +241,7 @@ function RatesSelector({ searchTerm, onSearchChange, selectedRates, onToggleRate
     <div className="space-y-3">
       <div className="relative flex space-x-1">
         <Input
-          placeholder="Buscar rate por nombre o código..."
+          placeholder={t("remedies.placeHolderInputSearch")}
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
           className="mt-2 text-lg h-10 max-w-md rounded-none border-black/50 border-2 shadow-md/20"
@@ -253,7 +256,7 @@ function RatesSelector({ searchTerm, onSearchChange, selectedRates, onToggleRate
           </Button>
       </div>
 
-      <div className="max-h-64  overflow-y-auto space-y-2">
+      <div className="max-h-[60vh] overflow-y-auto space-y-2">
          {isLoading?(
           <div className="h-64 flex justify-center items-center">
              <Spinner className="size-7"/>
@@ -261,7 +264,7 @@ function RatesSelector({ searchTerm, onSearchChange, selectedRates, onToggleRate
          ):(
           <>
           {categories.length === 0 ? (
-             <p className="text-center text-muted-foreground py-4">No se encontraron rates</p>
+             <p className="text-center text-muted-foreground py-4">{t("remedies.NotFoundRate")}</p>
             ) : (
             categories.map((category) => (
             <div key={category.id} className="border rounded-lg overflow-hidden">
@@ -318,7 +321,7 @@ function RatesSelector({ searchTerm, onSearchChange, selectedRates, onToggleRate
                             ))}
                           </div>
                 )}
-                      </div>
+             </div>
             ))
           )}
           </>
@@ -329,6 +332,7 @@ function RatesSelector({ searchTerm, onSearchChange, selectedRates, onToggleRate
 }
 
 export function CreateRemedyModal({ open, onOpenChange, onSave ,editRemedy,cleanEditForm}: CreateRemedyModalProps) {
+  const { t } = useTranslation()
   const [remedyName, setRemedyName] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedRates, setSelectedRates] = useState<Rate[]>([])
@@ -396,19 +400,19 @@ export function CreateRemedyModal({ open, onOpenChange, onSave ,editRemedy,clean
 
   return (
     <Dialog open={open} onOpenChange={resetForm}>
-      <DialogContent className="max-w-200! max-h-[90vh] overflow-hidden flex flex-col">
+      <DialogContent className="max-w-full! h-full! rounded-none overflow-hidden flex flex-col">
         <DialogHeader>
-          <DialogTitle className="text-xl">{editRemedy?"Editar remedio":"Crear Nuevo Remedio"}</DialogTitle>
+          <DialogTitle className="text-xl">{editRemedy?t("remedies.editRemedy"):t("remedies.createRemedy")}</DialogTitle>
         </DialogHeader>
 
         <div className="flex-1 overflow-hidden flex flex-col gap-4">
           <div className="space-y-2">
-            <Label htmlFor="remedyName" className="text-base font-semibold">Nombre del Remedio</Label>
+            <Label htmlFor="remedyName" className="text-base font-semibold">{t("remedies.remedyName")}</Label>
             <Input
               id="remedyName"
               value={remedyName}
               onChange={(e) => setRemedyName(e.target.value)}
-              placeholder="Ingrese el nombre del remedio"
+              placeholder={t("remedies.placeHolderInputName")}
               className="text-lg border-black/50 border-2"
             />
           </div>
@@ -416,8 +420,8 @@ export function CreateRemedyModal({ open, onOpenChange, onSave ,editRemedy,clean
           <Separator />
 
           <div className="flex-1 overflow-hidden flex gap-4 min-h-0">
-            <div className="flex-1 overflow-hidden">
-              <h4 className="font-semibold mb-2">Seleccionar Rates</h4>
+            <div className="flex-1 overflow-hidden ">
+              <h4 className="font-semibold mb-2">{t("remedies.selectRates")}</h4>
               <div className="h-full overflow-hidden">
                 <RatesSelector
                   searchTerm={searchTerm}
@@ -430,12 +434,12 @@ export function CreateRemedyModal({ open, onOpenChange, onSave ,editRemedy,clean
 
             <div className="flex-1 overflow-hidden flex flex-col">
               <h4 className="font-semibold mb-2">
-                Rates Seleccionados ({selectedRates.length})
+                {t("remedies.ratesSelected")} ({selectedRates.length})
               </h4>
-              <div className="flex-1  max-h-80 overflow-y-auto space-y-2">
+              <div className="flex-1  max-h-120 overflow-y-auto space-y-2">
                 {selectedRates.length === 0 ? (
                   <p className="text-center text-muted-foreground py-8">
-                    Seleccione rates de la lista
+                    {t("remedies.selectRateList")}
                   </p>
                 ) : (
                   selectedRates.map((rate) => (
@@ -455,7 +459,7 @@ export function CreateRemedyModal({ open, onOpenChange, onSave ,editRemedy,clean
         <DialogFooter className="mt-4">
           <Button variant="outline" onClick={resetForm} size="lg">
             <XIcon className="w-4 h-4 mr-2" />
-            Cancelar
+            {t("remedies.cancel")}
           </Button>
           <Button 
             onClick={handleSave} 
@@ -470,7 +474,7 @@ export function CreateRemedyModal({ open, onOpenChange, onSave ,editRemedy,clean
                 <SaveIcon className="w-4 h-4 mr-2" />
               )
             }
-            {editRemedy?"Guardar Cambios":"Guardar Remedio"}  
+            {t("remedies.save")}  
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -136,6 +136,7 @@ export function SerialProvider({children}:{children:ReactNode}){
     }
 
     const send=async (message:string)=>{
+     setOuputText("");
      if (!message || !serialport.current?.writable || !isConnected){
         console.warn('No se puede enviar: mensaje vacío o puerto no conectado');
         return;

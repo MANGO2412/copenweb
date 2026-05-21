@@ -46,8 +46,9 @@ import {
   ContextMenuTrigger
 } from "@/components/ui/context-menu"
 
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
+import MachineProcess from "@/components/MachineProcess"
 
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
 
 interface RemedyFiltersProps {
   showUserRemedies: boolean
@@ -56,6 +57,21 @@ interface RemedyFiltersProps {
   setShowSystemRemedies: (value: boolean) => void
   letterFilter: string
   setLetterFilter: (value: string) => void
+}
+
+interface RemedyRatesTableProps {
+  rates: Rate[]
+}
+
+interface MantraPanelProps {
+  onAutosimile: () => void
+  onNeutralize: () => void
+  onTimer: () => void
+  onCopy: () => void
+  onDecode: () => void
+  onCode: () => void
+  onDirectTreatment: () => void
+  onComplementaryCode: () => void
 }
 
 function RemedyFilters({ 
@@ -121,17 +137,6 @@ function RemedyFilters({
   )
 }
 
-interface MantraPanelProps {
-  onAutosimile: () => void
-  onNeutralize: () => void
-  onTimer: () => void
-  onCopy: () => void
-  onDecode: () => void
-  onCode: () => void
-  onDirectTreatment: () => void
-  onComplementaryCode: () => void
-}
-
 function MantraPanel({ 
   onAutosimile, 
   onNeutralize, 
@@ -184,12 +189,6 @@ function MantraPanel({
   )
 }
 
-
-
-interface RemedyRatesTableProps {
-  rates: Rate[]
-}
-
 function RemedyRatesTable({ rates }: RemedyRatesTableProps) {
   const { t } = useTranslation()
   return (
@@ -200,9 +199,9 @@ function RemedyRatesTable({ rates }: RemedyRatesTableProps) {
             <th className="px-3 py-3 text-left text-sm font-medium">{t('analysis.codes')}</th>
             <th className="px-3 py-3 text-left text-sm font-medium">{t('analysis.codeName')}</th>
             <th className="px-3 py-3 text-left text-sm font-medium">{t('analysis.potency')}</th>
-            <th className="px-3 py-3 text-left text-sm font-medium">Método</th>
-            <th className="px-3 py-3 text-left text-sm font-medium">{t('analysis.level')}</th>
-            <th className="px-3 py-3 text-left text-sm font-medium">Complementario</th>
+            <th className="px-3 py-3 text-left text-sm font-medium">{t("remedies.labelMethod")}</th>
+            <th className="px-3 py-3 text-left text-sm font-medium">{t('remedies.labelNivel')}</th>
+            <th className="px-3 py-3 text-left text-sm font-medium">{t("remedies.labelComp")}</th>
           </tr>
         </thead>
         <tbody>
@@ -230,9 +229,14 @@ function RemedyRatesTable({ rates }: RemedyRatesTableProps) {
   )
 }
 
+
+
 export function RemediesView() {
   const { t } = useTranslation()
-  const {outputText,send}=useSerialContext()
+  const {outputText,send,isConnected}=useSerialContext()
+  const [openModalProcess,setOpenModalProcess]=useState<boolean>(false);
+  const [txtModalProcess,setTxtModalProcess]=useState<string[]>([]);
+
   const [editRemedy,setEditRemedy]=useState<{
     idRemedy:string;
     nameRemedy:string;
@@ -273,7 +277,9 @@ export function RemediesView() {
   },[])
 
   useEffect(()=>{
-    console.log("output send"+outputText)
+    if(outputText=="532" || outputText=="711" || outputText=="534" || outputText =="539" || outputText == "538" || outputText == "533"){
+      setOpenModalProcess(false)
+    }
   },[outputText])
 
   const handleSelectRemedy = async (remedy: Remedy) => {
@@ -297,7 +303,7 @@ export function RemediesView() {
     const result=idRemedy?await updateRemedy(remedy):await saveRemedy(remedy)
     
     if("code" in   result){
-        if(result.code=="23505") toast.error(`This name: "${remedy.nombre}" is using for other remedy`,{position:'top-center'});
+        if(result.code=="23505") toast.error(t("remedies.remedyExists").replace("{name}",remedy.nombre));
          clearForm(true);
          return;
     }
@@ -323,15 +329,15 @@ export function RemediesView() {
      if(remedy?.isCustomRemedy){
         const result=await removeRemedy(remedy_id);
         if(result){
-          toast.success(`the remedy ${remedy.nombre} was remove successfully`,{position:"top-center"})
+          toast.success(t("remedies.remedyRemoved").replace("{name}",remedy.nombre),{position:"top-center"})
           setRemedies(remedies.filter(item=>item.id != remedy_id))
           if(selectedRemedy?.id == remedy_id) setSelectedRemedy(null);
         }else{
-          toast.error(`an error occurs to  remove the ${remedy.nombre} remedy `,{position:"top-center"})
+          toast.error(t("remedies.remedyRemoveError").replace("{name}",remedy.nombre),{position:"top-center"})
         }
 
      }else{
-       toast.error("you should not remove remedies from the system; only remove custom remedies",{position:"top-center"})
+       toast.error(t("remedies.cannotRemoveSystemRemedy"),{position:"top-center"})
      }
 
   }
@@ -348,7 +354,7 @@ export function RemediesView() {
      
         setCreateModalOpen(true)
      }else{
-       toast.error("you should not edit remedies from the system; only remove custom remedies",{position:"top-center"})
+       toast.error(t("remedies.cannotEditSystemRemedy"),{position:"top-center"})
      }
 
 
@@ -368,17 +374,77 @@ export function RemediesView() {
 
     const result=await saveRemedy(copyRemedy)
     if("code" in   result){
-       if(result.code=="23505") toast.error(`This name: "${copyRemedy.nombre}" is using for other remedy`,{position:'top-center'});
+       if(result.code=="23505") toast.error(t("remedies.remedyExists").replace("{name}",copyRemedy.nombre),{position:'top-center'});
        return;
     }
 
     await saveContentRemedies(rates,result.id || "")
     setRemedies([...remedies, {...result,isCustomRemedy:true}]);
-    toast.success(`the remedy selected was duplicate succesfully`,{position:'top-center'})
+    toast.success(t("remedies.remedyDuplicated"),{position:'top-center'})
   }
 
+ const onAutosimile=()=>{
+  if(!isConnected){
+    toast.error(t("common.machineDisconnected"), { position: "top-center" })
+    return;
+  }
+  setTxtModalProcess("Autosimile".split(""))
+  setOpenModalProcess(true)
+  send("S")
+ }
+
+ const onNeutralize=()=>{
+  if(!isConnected){
+    toast.error(t("common.machineDisconnected"), { position: "top-center" })
+    return;
+  }
+  setTxtModalProcess("Neutralizing".split(""))
+  setOpenModalProcess(true)
+  send("Z")
+ }
+
+ const onTimer=()=>{
+  if(!isConnected){
+    toast.error(t("common.machineDisconnected"), { position: "top-center" })
+    return;
+  }
+  setTxtModalProcess("10 Second Timer".split(""))
+  setOpenModalProcess(true)
+  send("P")
+ }
+
+ const onCopy=()=>{ 
+  if(!isConnected){
+    toast.error(t("common.machineDisconnected"), { position: "top-center" })
+    return;
+  }
+  setTxtModalProcess("Copying".split(""))
+  setOpenModalProcess(true)
+  send("Y")
+ }
+
+ const onDecode=()=>{
+  if(!isConnected){
+    toast.error(t("common.machineDisconnected"), { position: "top-center" })
+    return;
+  }
+  setTxtModalProcess("Decoding".split(""))
+  setOpenModalProcess(true)
+  send("E")
+ }
+
+ const onCode=()=>{
+  if(!isConnected){
+    toast.error(t("common.machineDisconnected"), { position: "top-center" })
+    return;
+  }
+  setTxtModalProcess("Coding".split(""))
+  setOpenModalProcess(true)
+  send("V")
+ }
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6">      
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">{t('remedies.title')}</h1>
         <Button className="bg-foreground rounded-none shadow-md/20" onClick={handleOpenCreateModal}>
@@ -497,12 +563,12 @@ export function RemediesView() {
                   <Separator />
 
                   <MantraPanel 
-                    onAutosimile={() =>send("S")}
-                    onNeutralize={() =>send("Z")}
-                    onTimer={() =>send("P")}
-                    onCopy={() => send("Y")}
-                    onDecode={() =>send("E")}
-                    onCode={() =>send("V")}
+                    onAutosimile={onAutosimile}
+                    onNeutralize={onNeutralize}
+                    onTimer={onTimer}
+                    onCopy={onCopy}
+                    onDecode={onDecode}
+                    onCode={onCode}
                     onDirectTreatment={() => console.log("Direct Treatment")}
                     onComplementaryCode={() => console.log("Complementary Code")}
                   />
@@ -511,7 +577,7 @@ export function RemediesView() {
 
               <Card className="border-black/50 border-2 bg-sidebar rounded-none">
                 <CardHeader>
-                  <CardTitle className="text-lg">{t('remedies.selectRates')}</CardTitle>
+                  <CardTitle className="text-lg">{t('remedies.ratesSelected')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {loadingContentRemedy ?(
@@ -543,6 +609,11 @@ export function RemediesView() {
         onSave={handleSaveNewRemedy}
         editRemedy={editRemedy}
         cleanEditForm={setEditRemedy}
+      />
+
+      <MachineProcess 
+        open={openModalProcess} 
+        txtProcess={txtModalProcess}
       />
     </div>
   )

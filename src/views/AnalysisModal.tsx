@@ -1,5 +1,5 @@
 import { toast } from "sonner"
-
+import { useTranslation } from "react-i18next"
 import {  useEffect, useState,useRef} from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -107,6 +107,7 @@ function SelectOptions({ options, label, onChange, disabled }: { options: string
 }
 
 function ControlPanel({generateValues,setGenerateValues,suggestedValues,setSuggestedValues,setSelectedValue}:ControlPanelState){
+  const {t}=useTranslation()
 
   const toggleOption = (option: keyof ControlPanelState["generateValues"]) => {
     if(option === "pro"){
@@ -159,7 +160,7 @@ function ControlPanel({generateValues,setGenerateValues,suggestedValues,setSugge
                 onCheckedChange={() => toggleOption("percentage")}
                 className="rounded-md border-2 w-4 h-4 border-black/50"
               />
-              <FieldLabel className="font-normal text-md">Porcentage</FieldLabel>
+              <FieldLabel className="font-normal text-md">{t("analysis.porcentage")}</FieldLabel>
             </Field>
             <Field orientation="horizontal">
               <Checkbox
@@ -180,7 +181,7 @@ function ControlPanel({generateValues,setGenerateValues,suggestedValues,setSugge
                   onCheckedChange={() => toggleSuggested("level")}
                 
                 />
-                <FieldLabel className="font-normal text-md">Suggest Level</FieldLabel>
+                <FieldLabel className="font-normal text-md">{t("analysis.suggestLevel")}</FieldLabel>
              </Field>
              <Field orientation="horizontal" className="w-40">
                 <Checkbox
@@ -188,18 +189,18 @@ function ControlPanel({generateValues,setGenerateValues,suggestedValues,setSugge
                   checked={suggestedValues.potency}
                   onCheckedChange={() => toggleSuggested("potency")}
                 />
-                <FieldLabel className="font-normal text-md">Suggest Potency</FieldLabel>
+                <FieldLabel className="font-normal text-md">{t("analysis.suggestPotency")}</FieldLabel>
              </Field>
           </FieldGroup>
       </FieldSet>
       <div className="relative flex justify-center space-x-1 mt-4 mb-4">
           <div className="flex flex-row">
-          <Label className="text-md font-normal me-2" >Level:</Label>
-          <SelectOptions disabled={suggestedValues.level} label="level" options={["1 - PHYSICAL","2 - EMOTIONAL","3 - MENTAL",'4 - SPIRITUAL 1','5 - SPIRITUAL 2','6 - SPIRITUAL 3','7 - SPIRITUAL 4','8 - SPIRITUAL 5','9 - SPIRITUAL 6','10 - SPIRITUAL 7','11 - SPIRITUAL 8','12 - SPIRITUAL 9','13 - AUTOMATIC']} onChange={(value) => setSelectedValue(prev => ({ ...prev, level: value })) } />
+          <Label className="text-md font-normal me-2" >{t("analysis.level")}:</Label>
+          <SelectOptions disabled={suggestedValues.level} label={t("analysis.level")} options={["1 - PHYSICAL","2 - EMOTIONAL","3 - MENTAL",'4 - SPIRITUAL 1','5 - SPIRITUAL 2','6 - SPIRITUAL 3','7 - SPIRITUAL 4','8 - SPIRITUAL 5','9 - SPIRITUAL 6','10 - SPIRITUAL 7','11 - SPIRITUAL 8','12 - SPIRITUAL 9','13 - AUTOMATIC']} onChange={(value) => setSelectedValue(prev => ({ ...prev, level: value })) } />
          </div>
          <div className="flex flex-row">
-          <Label className="text-md font-normal me-2">Potency:</Label>
-          <SelectOptions disabled={suggestedValues.potency} label="potency" options={["1X","3X","6X","10X","2X","12X","8X","24X","30X","50X","100X","200X","20C","40C",'50C','200C','1CM','1LM','2LM','3LM','6LM','10LM','16LM','20LM','30LM','1M','2M','5M','10M','50M','500M','1MM','2MM','5MM','10MM']} onChange={(value) => setSelectedValue(prev => ({ ...prev, potency: value })) } />
+          <Label className="text-md font-normal me-2">{t("analysis.potency")}:</Label>
+          <SelectOptions disabled={suggestedValues.potency} label={t("analysis.potency")}  options={["1X","3X","6X","10X","2X","12X","8X","24X","30X","50X","100X","200X","20C","40C",'50C','200C','1CM','1LM','2LM','3LM','6LM','10LM','16LM','20LM','30LM','1M','2M','5M','10M','50M','500M','1MM','2MM','5MM','10MM']} onChange={(value) => setSelectedValue(prev => ({ ...prev, potency: value })) } />
          </div>
       </div>
     </div>
@@ -218,6 +219,7 @@ function RatesSection({
   selectedRates: Rate[]
   onToggleRate: (rate: Rate) => void
 }) {
+  const {t}=useTranslation()
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set())
   const [expandedSubcategories, setExpandedSubcategories] = useState<Set<string>>(new Set())
   const [showUserRates,setShowUserRates]=useState(false)
@@ -283,7 +285,7 @@ function RatesSection({
     <div className="flex flex-col h-full ">
       <div className="relative flex space-x-1 mb-4 ">
         <Input
-          placeholder="Buscar rate por nombre o código..."
+          placeholder={t("remedies.placeHolderInputSearch")}
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
           className=" mt-2 text-lg max-w-md rounded-none border-black/50 border-2"
@@ -304,7 +306,7 @@ function RatesSection({
                 setSearchResults([])
                 onSearchChange("")                                  
                }} />
-             < span className="text-sm">Mostrar rates personalizados</span>
+             < span className="text-sm">{t('categories.showCustomRates')}</span>
            </label>
       </div>
       </div>
@@ -416,17 +418,18 @@ function SelectedRatesTable({
   isAnalyzed: boolean
   isReanalisis?:boolean
 }) {
+  const {t}=useTranslation();
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <Button onClick={onStartAnalysis} size="lg" className="text-lg px-6" disabled={rates.length === 0 || isAnalyzed}>
             <PlayIcon className="w-5 h-5 mr-2" />
-            Iniciar Análisis
+            {t("analysis.startAnalysis")}
           </Button>
           <Button onClick={onClear}  variant="outline" size="lg" className="text-lg px-6" disabled={rates.length === 0 || isAnalyzed || isReanalisis}>
             <XIcon className="w-5 h-5 mr-2" />
-            Limpiar
+            {t("common.clear")} 
           </Button>
         </div>
       </div>
@@ -435,21 +438,22 @@ function SelectedRatesTable({
         <table className="w-full">
           <thead className="bg-muted sticky top-0">
             <tr>
-              <th className="px-4 py-3 text-left text-base font-semibold">Código</th>
-              <th className="px-4 py-3 text-left text-base font-semibold">Nombre</th>
-              <th className="px-4 py-3 text-left text-base font-semibold">Valor</th>
-              <th className="px-4 py-3 text-left text-base font-semibold">Niveles</th>
-              <th className="px-4 py-3 text-left text-base font-semibold">Niv.s.</th>
-              <th className="px-4 py-3 text-left text-base font-semibold">Potencia</th>
-              <th className="px-4 py-3 text-left text-base font-semibold">P.s.</th>
-              <th className="px-4 py-3 text-center text-base font-semibold">Acción</th>
+              <th className="px-4 py-3 text-left text-base font-semibold">{t("analysis.codes")}</th>
+              <th className="px-4 py-3 text-left text-base font-semibold">{t("analysis.codeName")}</th>
+              <th className="px-4 py-3 text-left text-base font-semibold">{t("analysis.value")}</th>
+              <th className="px-4 py-3 text-left text-base font-semibold">{t("analysis.levels")}</th>
+              <th className="px-4 py-3 text-left text-base font-semibold">{t("analysis.suggestedLevel")}</th>
+              <th className="px-4 py-3 text-left text-base font-semibold">{t("analysis.potencyValue")}</th>
+              <th className="px-4 py-3 text-left text-base font-semibold">{t("analysis.suggestedPotency")}</th>
+              <th className="px-4 py-3 text-center text-base font-semibold">{t("common.actions")}</th>
             </tr>
           </thead>
           <tbody>
             {rates.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-4 py-8 text-center text-muted-foreground text-lg">
-                  Seleccione rates de la lista izquierda
+                    {t("analysis.selectRates")}
+                  
                 </td>
               </tr>
             ) : (
@@ -497,6 +501,7 @@ function ShowModelProccessAnalysis({open}:{open?:boolean}){
 }
 
 export function AnalysisModal({ open, onOpenChange, analysisInfo, onSave,ratesAnalyzed }: AnalysisModalProps) {
+  const {t}=useTranslation()
   const timeoutID=useRef<number|undefined>(undefined)
   const {send,outputText,resetDataReceived,isConnected,serialport}=useSerialContext()
   const [isAnalyzed,setIsAnalyzed]=useState(false)
@@ -526,11 +531,10 @@ export function AnalysisModal({ open, onOpenChange, analysisInfo, onSave,ratesAn
   },[ratesAnalyzed])
 
   useEffect(() => {
-    console.log("Output text changed in view Analysis:", outputText)
     if(!isConnected && serialport.current && open){
       setShowModelProcess(false)
       clearInterval(timeoutID.current);
-      toast.error("Your machine was disconnected", { position: "top-center" })
+      toast.error(t("common.machineDisconnected"), { position: "top-center" })
     }
 
     if(outputText.includes("603")){
@@ -579,17 +583,17 @@ export function AnalysisModal({ open, onOpenChange, analysisInfo, onSave,ratesAn
 
   const handleStartAnalysis = () => {
     if(!generateValues.pro &&!generateValues.percentage && !generateValues.scale){
-      toast.error("You don't select some options from control panel", { position: "top-center" })
+      toast.error(t("analysis.noOptionsSelected"), { position: "top-center" })
       return;
     }
 
     if(!suggestedValues.level && !suggestedValues.potency && selectedValue.level == "-" && selectedValue.potency == "-"){
-      toast.error("You don't selected some  value or suggest option of the level and potency from control panel", { position: "top-center" })
+      toast.error(t("analysis.noValuesSelected"), { position: "top-center" })
       return;
     }
 
     if(!isConnected){
-      toast.error("your machine is not connected", { position: "top-center" })
+      toast.error(t("common.machineDisconnected"), { position: "top-center" })
       return;
     }
 
@@ -635,7 +639,7 @@ export function AnalysisModal({ open, onOpenChange, analysisInfo, onSave,ratesAn
       const analysis:Analysis|Error= analysisInfo.reanalizado? await updateAnalysisToReanalysis(analysisInfo): await registerAnalysis(analysisInfo)
 
       if('code' in analysis){
-       if(analysis.code=="23505") toast.error("This analysis's name is dupliacated, try to create analysis with different name please", { position: "top-center" }) 
+       if(analysis.code=="23505") toast.error(t("analysis.analysisDuplicated"), { position: "top-center" }) 
        return
       }
 
@@ -655,29 +659,29 @@ export function AnalysisModal({ open, onOpenChange, analysisInfo, onSave,ratesAn
         <div className="shrink-0 p-4 bg-muted/50 rounded-lg mb-2">
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <span className="text-sm text-muted-foreground">Nombre del Análisis</span>
+              <span className="text-sm text-muted-foreground">{t("analysis.analysisName")}</span>
               <p className="text-xl font-medium">{analysisInfo.nombre}</p>
             </div>
             <div>
-              <span className="text-sm text-muted-foreground">Paciente</span>
+              <span className="text-sm text-muted-foreground">{t("analysis.patient")}</span>
               <p className="text-xl font-medium">{analysisInfo.patientName}</p>
             </div>
             <div>
-              <span className="text-sm text-muted-foreground">Fecha de Creación</span>
+              <span className="text-sm text-muted-foreground">{t("common.createdAt")}</span>
               <p className="text-xl font-medium">{new Date(analysisInfo.fecha || "").toLocaleDateString()}</p>
             </div>
           </div>
         </div>
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0 overflow-hidden">
           <div className="border rounded-lg p-4 flex flex-col overflow-hidden">
-            <h3 className="text-xl font-semibold mb-3">Control panel</h3>
+            <h3 className="text-xl font-semibold mb-3">{t("analysis.controlPanel")}</h3>
             <Separator className="mb-3"/>
             <div >
               <ControlPanel setSuggestedValues={setSuggestedValues} suggestedValues={suggestedValues} generateValues={generateValues} setGenerateValues={setGenerateValues} setSelectedValue={setSelectedValue} />
             </div>
             {!isAnalyzed && (
               <>
-                <h3 className="text-xl font-semibold mb-3">Rates Disponibles</h3>
+                <h3 className="text-xl font-semibold mb-3">{t("analysis.ratesAvailable")}</h3>
                 <Separator className="mb-3"/>
                 <div className="flex-1 overflow-hidden">
                   <RatesSection
@@ -692,7 +696,7 @@ export function AnalysisModal({ open, onOpenChange, analysisInfo, onSave,ratesAn
           </div>
 
           <div className="border rounded-lg p-4 flex flex-col overflow-hidden">
-            <h3 className="text-xl font-semibold mb-3">Rates Seleccionados</h3>
+            <h3 className="text-xl font-semibold mb-3">{t("remedies.ratesSelected")} </h3>
             <Separator className="mb-3" />
             <div className="flex-1 overflow-hidden">
               <SelectedRatesTable
@@ -710,11 +714,11 @@ export function AnalysisModal({ open, onOpenChange, analysisInfo, onSave,ratesAn
         <DialogFooter className="mt-4">
           <Button onClick={()=>{resetState()}} variant="default" size="lg" className="text-lg px-6 bg-red-600 hover:bg-red-700" >
              <XIcon className="w-5 h-5 mr-2" />
-             Cerrar
+             {t("common.close")}
           </Button> 
            <Button onClick={handleSaveAnalysis} variant="default" size="lg" className="text-lg px-6 bg-green-600 hover:bg-green-700"  disabled={!isAnalyzed} >
              <SaveIcon className="w-5 h-5 mr-2" />
-             Guardar
+             {t("common.save")}
           </Button> 
         </DialogFooter>
       </DialogContent>

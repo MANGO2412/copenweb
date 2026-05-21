@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
+import {toast} from "sonner"
+
 
 
 import supabase from "@/lib/supabase"
@@ -28,6 +30,8 @@ function Login() {
 
     } catch (error) {
       console.error("Login error:", error)
+      toast.error(t('login.invalid_credentials'),{position: "top-center"})
+
     }
     setIsLoading(true)
     setTimeout(() => {
@@ -45,7 +49,7 @@ function Login() {
         <CardHeader className="space-y-4 text-center pb-2">
           <img src="/Frame-1.ico" alt="CopenSoft Logo" className="mx-auto w-14 h-14 items-center justify-center  shadow-lg shadow-blue-500/20" />
           <div>
-            <CardTitle className="text-2xl font-semibold tracking-tight text-slate-800">{t('login.title')}</CardTitle>
+            <CardTitle className="text-2xl font-semibold tracking-tight text-slate-800">CARE C24 WEB</CardTitle>
             <CardDescription className="text-slate-500 mt-1">
               {t('login.subtitle')}
             </CardDescription>

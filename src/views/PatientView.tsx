@@ -18,12 +18,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Edit2Icon, Trash2Icon, EyeIcon,UserIcon,BookUserIcon } from "lucide-react"
 import {useSerialContext} from "@/context/serial-context"
 import DatePicker from "@/components/DatePicker"
 import {next,RandomDigits} from "@/lib/radionica"
 import type {Patient} from "@/interface/patient"
+import MachineProcess from "@/components/MachineProcess"
 
 interface PatientFormProps {
   patient?: Patient
@@ -33,7 +34,9 @@ interface PatientFormProps {
 
 function PatientForm({ patient, onSave, onCancel }: PatientFormProps) {
    const { t } = useTranslation()
-   const {send}=useSerialContext()
+   const {send,outputText}=useSerialContext()
+   const [openModalProcess,setOpenModalProcess]=useState<boolean>(false);
+   const [txtModalProcess,setTxtModalProcess]=useState<string[]>([]);
    const [imagePreview, setImagePreview] = useState<string | null>(null)
    const [formData, setFormData] = useState<Partial<Patient>>({
        nombre: "",
@@ -48,6 +51,19 @@ function PatientForm({ patient, onSave, onCancel }: PatientFormProps) {
        setFormData(patient)
      }
    },[patient])
+
+   useEffect(()=>{
+    if(outputText == "603" || outputText=="538"){
+       if(outputText == "603"){
+          const output=RandomDigits(next(16,22))
+           setFormData({ ...formData, fpg: output })
+       }
+
+       setOpenModalProcess(false);
+
+    }
+
+   },[outputText])
   
   const clearForm=()=>{
      setFormData({
@@ -111,12 +127,15 @@ function PatientForm({ patient, onSave, onCancel }: PatientFormProps) {
   }
 
   const generateFrequency = () => {
-    send("A")
-    setTimeout(()=>{
-      const output=RandomDigits(next(16,22))
-      setFormData({ ...formData, fpg: output })
-    },14500)
-    
+    send("A")   
+    setOpenModalProcess(true);
+    setTxtModalProcess(t("common.processFindPgr").split(""))
+  }
+
+  const saveFrequency =()=>{
+    send("V")
+    setOpenModalProcess(true);
+    setTxtModalProcess(t("common.processSavePgr").split(""))
   }
 
   return (
@@ -162,17 +181,17 @@ function PatientForm({ patient, onSave, onCancel }: PatientFormProps) {
               <SelectValue placeholder={t('patient.gender')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="femenino">Femenino</SelectItem>
-              <SelectItem value="masculino">Masculino</SelectItem>
-              <SelectItem value="animal">Animal</SelectItem>
-              <SelectItem value="planta_tierra">Planta/Tierra</SelectItem>
+              <SelectItem value="femenino">{t('patient.labelFemale')}</SelectItem>
+              <SelectItem value="masculino">{t('patient.labelMale')}</SelectItem>
+              <SelectItem value="animal">{t('patient.labelAnimal')}</SelectItem>
+              <SelectItem value="planta_tierra">{t('patient.labelThings')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="image">{t('remedies.description')}</Label>
+        <Label htmlFor="image">{t('patient.photo')}</Label>
         <div className="flex items-center gap-4">
           <Input
             id="image"
@@ -183,7 +202,7 @@ function PatientForm({ patient, onSave, onCancel }: PatientFormProps) {
 
           />
           <Button type="button" variant="outline" onClick={() => document.getElementById("image")?.click()}>
-            {t('remedies.addRemedy')}
+            {t('patient.uploadImage')}
           </Button>
           {imagePreview && (
             <img src={imagePreview} alt="Preview" className="w-16 h-16 object-cover rounded-lg" />
@@ -197,7 +216,7 @@ function PatientForm({ patient, onSave, onCancel }: PatientFormProps) {
           id="phone"
           value={formData.telefono}
           onChange={(e) => setFormData({ ...formData, telefono  : e.target.value })}
-          placeholder="+52 123 456 7890"
+          placeholder="123 456 7890"
           required
           className="max-w-md rounded-none border-black/50 border-2 shadow-md/20"
         />
@@ -208,10 +227,10 @@ function PatientForm({ patient, onSave, onCancel }: PatientFormProps) {
         <div className="flex gap-2">
           
           <Button type="button" className="rounded-none shadow-md/20 bg-green-600"  onClick={generateFrequency}>
-            Find PGR
+            {t("patient.btnFindPGR")}
           </Button>
-          <Button type="button" className="rounded-none shadow-md/20 bg-foreground" onClick={()=>send("V")}>
-             Save PGR to Card
+          <Button type="button" className="rounded-none shadow-md/20 bg-foreground" onClick={saveFrequency}>
+            {t("patient.btnSavePGR")} 
           </Button>
           <Input
             id="frequency"
@@ -236,6 +255,8 @@ function PatientForm({ patient, onSave, onCancel }: PatientFormProps) {
           {t('patient.cancel')}
         </Button>
       </div>
+
+      <MachineProcess open={openModalProcess} txtProcess={txtModalProcess} />
     </form>
   )
 }
@@ -336,7 +357,7 @@ export function PatientView() {
   const handleSave = async (patient: Partial<Patient>,clearForm:()=>void) => {
       const response=editingPatient?await updatePatient(patient):await registerPatient(patient)
       if("code" in response){
-        if(response.code=="23505") toast.error(`The patient ${(patient.nombre ||"")+(patient.apellido2 || "")} exists in the system, please register this patient with other name`,{position:'top-center'});
+        if(response.code=="23505") toast.error(t("patient.patientExists").replace("{name}",`${(patient.nombre ||"")+(patient.apellido2 || "")}`),{position:'top-center'});
          return;
       }
 
@@ -367,12 +388,12 @@ export function PatientView() {
   return (
     <>
       <Dialog open={!!viewingPatient} onOpenChange={() => setViewingPatient(null)}>
-        <DialogContent>
+        <DialogContent  aria-describedby={undefined}>
           <DialogHeader>
             <DialogTitle>{t('patient.view')}</DialogTitle>
-            <DialogDescription>
+            {/* <DialogDescription>
               {t('patient.confirmDelete')}
-            </DialogDescription>
+            </DialogDescription> */}
           </DialogHeader>
           {viewingPatient && (
             <div className="space-y-4">
@@ -386,7 +407,7 @@ export function PatientView() {
                 </div>
                 <div>
                   <Label>{t('patient.birthYear')}</Label>
-                  <p className="text-sm">{viewingPatient.fechanacimiento?.toLocaleString()}</p>
+                  <p className="text-sm">{new Date(viewingPatient.fechanacimiento || "").toDateString()}</p>
                 </div>
                 <div>
                   <Label>{t('patient.gender')}</Label>
