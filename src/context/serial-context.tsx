@@ -7,12 +7,16 @@ import {
  useRef
 } from "react"
 
+
+
 interface SerialContextType{
     //global variables
     outputText:string;
     serialport:React.RefObject<any | null> ;
     reader:any | null;
-    hasPort:boolean
+    hasPort:boolean;
+    nameMachine:string;
+    setNameMachine:(value:string)=>void
 
     keepReading:React.RefObject<boolean>;
     isConnected:boolean;
@@ -31,6 +35,8 @@ const SerialContext=createContext<SerialContextType|null>(null)
 
 export function SerialProvider({children}:{children:ReactNode}){
     const [outputText,setOuputText]=useState<string>("")
+    const [nameMachine,setNameMachine]=useState<string>("")
+
     const [reader,setReader]=useState<any>(null)
     const [isConnected,setIsConnected]=useState<boolean>(false)
     const [hasPort,setHaspPort]=useState<boolean>(false)
@@ -182,6 +188,8 @@ export function SerialProvider({children}:{children:ReactNode}){
 
     return(
         <SerialContext.Provider value={{
+            nameMachine,
+            setNameMachine,
             hasPort,
             outputText,
             selectPort,
@@ -195,6 +203,7 @@ export function SerialProvider({children}:{children:ReactNode}){
             send,
             resetDataReceived
         }}>
+
             {children}
         </SerialContext.Provider>
     )

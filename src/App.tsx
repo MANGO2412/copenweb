@@ -3,13 +3,14 @@ import Login from "@/pages/Login"
 import Home from "@/pages/Home"
 import { Toaster } from "@/components/ui/sonner"
 import CheckAUth from "./components/CheckAuth"
+import ModalSerial from "./components/ModalSerial"
 
 function App() {
   return (
     <>
     <Routes>
       <Route path="/login" element={<CheckAUth><Login /></CheckAUth>} />
-      <Route path="/" element={<CheckAUth><Home /></CheckAUth>} />
+      <Route path="/" element={<CheckAUth><ModalSerial/>  <Home /></CheckAUth>} />
     </Routes>
     <Toaster/>
     </>

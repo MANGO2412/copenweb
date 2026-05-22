@@ -1,4 +1,13 @@
 {
+  "modalConnect":{
+     "title":"Stabilisci connessione",
+     "description":"L'applicazione web non ha rilevato il tuo dispositivo; stabilisci una connessione per iniziare",
+     "btnSelectPort":"Seleziona porta",
+     "btnConnect":"Collegare la macchina",
+     "btnCheck":"Lettore di carte",
+     "btnClose":"Esci",
+     "error":"Devi selezionare la macchina da collegare"
+  },
   "sidebar": {
     "patient": "Paziente",
     "analysis": "Analisi",

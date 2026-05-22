@@ -1,4 +1,13 @@
 {
+  "modalConnect":{
+     "title":"Estabelecer ligação ",
+     "description":"A aplicação web não detectou o seu computador; estabeleça uma ligação para iniciar",
+     "btnSelectPort":"Selecionar porta",
+     "btnConnect":"Connectar Maquina",
+     "btnCheck":"Ligar a máquina",
+     "btnClose":"Sair da sessão",
+     "error":"Deve selecionar o equipamento a ligar"
+  },
   "sidebar": {
     "patient": "Paciente",
     "analysis": "Análise",

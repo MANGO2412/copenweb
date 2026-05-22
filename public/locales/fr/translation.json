@@ -1,4 +1,13 @@
 {
+  "modalConnect":{
+     "title":"Établir une connexion",
+     "description":"L'application web n'a pas détecté votre appareil. Établissez une connexion pour commencer.",
+     "btnSelectPort":"Sélectionner un port",
+     "btnConnect":"Connecter la machine",
+     "btnCheck":"Vérifier la machine",
+     "btnClose":"Se déconnecter",
+     "error":"Vous devez sélectionner l'appareil à connecter"
+  },
   "sidebar": {
     "patient": "Patient",
     "analysis": "Analyse",

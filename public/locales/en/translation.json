@@ -1,4 +1,13 @@
 {
+  "modalConnect":{
+     "title":"Establish a connection",
+     "description":"The web application hasn't detected your machine, Please  establish a connection to get started",
+     "btnSelectPort":"Select Port",
+     "btnConnect":"Connect Machine",
+     "btnCheck":"Check Machine",
+     "btnClose":"Close Session",
+     "error":"You must select the  machine you want to  connect"
+  },
   "sidebar": {
     "patient": "Patient",
     "analysis": "Analysis",

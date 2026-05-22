@@ -1,4 +1,13 @@
 {
+  "modalConnect":{
+     "title":"Establecer Conexion",
+     "description":"La aplicacion web no ha dectetado tu maquina, esteblece conexion para iniciar",
+     "btnSelectPort":"Seleccionar puerto",
+     "btnConnect":"Connectar Maquina",
+     "btnCheck":"Verificar Maquina",
+     "btnClose":"Cerrar sesion",
+     "error":"Debes seleccionar la maquina a conectar"
+  },
   "sidebar": {
     "patient": "Paciente",
     "analysis": "Analisis",
